@@ -52,7 +52,7 @@ class WordpressEditSettingsCommand(sublime_plugin.WindowCommand):
 	def doDone(self, value):
 		# assign the new option value 
 		for option in self.options:
-			if option.name == self.cur_option.name
+			if option.name == self.cur_option.name:
 				option.value = value
 
 		# create threaded API call because the http connections could take awhile
