@@ -587,7 +587,7 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 			if self.page_id == page['id']:
 				self.page = page
 
-			self.page_options.append(page['title'])
+			self.page_options.append(page.title)
 
 		self.wc.show_quick_panel(self.page_options, self.choose_page_callback)
 
