@@ -590,9 +590,9 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 				self.cur_parent = page.parent_id
 
 			if self.cur_parent == page.id:
-				self.page_options.append([self.wc.prefix + page.title, page.id])
+				self.page_options.append([self.wc.prefix + page.title, 'ID: ' + page.id])
 			else:
-				self.page_options.append([page.title, page.id])
+				self.page_options.append([page.title, 'ID: ' + page.id])
 
 		self.wc.show_quick_panel(self.page_options, self.choose_page_callback)
 
@@ -610,7 +610,7 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 		# loop through all of the retreived taxonomies
 		for page in self.pages:
 			# check for a matching title for the selected quick panel option
-			if page.id == self.page_options[index][1]:
+			if page.id == self.page_options[index][1][4:]:
 				self.new_page_id = page.id
 				self.update_page()
 
