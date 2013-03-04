@@ -382,8 +382,11 @@ class WordpressNewPostCommand(sublime_plugin.WindowCommand):
 
 	""" Called right before the rest of the command runs """
 	def setup_command(self, *args, **kwargs):
+		# retreive post type
+		self.post_type = kwargs.get('post_type', 'post')
+
 		# show the input panel to receive the new posts title
-		self.window.show_input_panel('New Post Title', '', self.doDone, None, None)
+		self.window.show_input_panel('New ' + self.post_type + ' Title', '', self.doDone, None, None)
 
 	""" Called when the input panel has received input """
 	def doDone(self, name):
@@ -393,6 +396,7 @@ class WordpressNewPostCommand(sublime_plugin.WindowCommand):
 		# intialize the post with the inputted name and some empty content
 		self.post.title = name
 		self.post.content = ''
+		self.post.post_type = self.post_type
 
 		# create threaded API call because the http connections could take awhile
 		thread = sublpress.WordpressApiCall(NewPost(self.post))
