@@ -79,5 +79,5 @@ class WordpressEditSettingsCommand(sublime_plugin.WindowCommand):
 			if option.name == self.panel_options[index][0]:
 				# allow the user to input the new option value
 				self.cur_option = option
-				self.window.show_input_panel('Change ' + option.name + ' to:', self.option.value, self.doDone, None, None)
+				self.window.show_input_panel('Change ' + option.name + ' to:', option.value, self.doDone, None, None)
 				pass
