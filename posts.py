@@ -248,7 +248,7 @@ class WordpressPostActionCommand(sublime_plugin.WindowCommand):
 
 		# change parent
 		if index == 5:
-			self.window.run_command('wordpress_modify_page_parent', {'id': self.id, 'title': self.title, 'post_type': self.post_type}) #view
+			self.window.run_command('wordpress_modify_post_parent', {'id': self.id, 'title': self.title, 'post_type': self.post_type}) #view
 			return
 
 		# view post
