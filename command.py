@@ -17,7 +17,7 @@ class WordpressCommand():
 		# initialize callback
 		self.callback = None
 
-		self.prefix = '✓   '
+		self.prefix = ' •   '
 
 	def is_enabled(self):
 		if common.sp_wp == None:
