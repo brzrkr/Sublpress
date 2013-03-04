@@ -210,7 +210,7 @@ class WordpressPostActionCommand(sublime_plugin.WindowCommand):
 		pretty = self.wc.unslugify(self.post_type)
 
 		# setup some options for the quick panel
-		self.options = ['Rename ' + pretty, 'Edit ' + pretty, 'Delete ' + pretty, 'Change ' + pretty + ' Status', 'Modify Terms and Taxes for ' + pretty, 'View ' + pretty, ]
+		self.options = ['Rename ' + pretty, 'Edit ' + pretty, 'Delete ' + pretty, 'Change ' + pretty + ' Status', 'Modify Terms and Taxes for ' + pretty, 'Change Parent ' + pretty, 'View ' + pretty, ]
 
 		# show the quick panel
 		self.wc.show_quick_panel(self.options, self.panel_callback)
@@ -246,8 +246,13 @@ class WordpressPostActionCommand(sublime_plugin.WindowCommand):
 			self.window.run_command('wordpress_modify_post_terms', {'id': self.id}) # edit
 			return
 
-		# rename post
+		# change parent
 		if index == 5:
+			self.window.run_command('wordpress_modify_page_parent', {'id': self.id, 'title': self.title, 'post_type': self.post_type}) #view
+			return
+
+		# view post
+		if index == 6:
 			self.window.run_command('wordpress_view_post', {'id': self.id, 'title': self.title}) #view
 			return
 
@@ -527,5 +532,93 @@ class WordpressModifyPostStatusCommand(sublime_plugin.WindowCommand):
 		self.post.post_status = self.cur_status
 
 		thread = sublpress.WordpressApiCall(EditPost(self.post.id, self.post))
+		self.wc.add_thread(thread)
+		self.wc.init_threads(self.thread_callback)
+
+
+class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
+	""" Sublime Command called when the user selects the option to modify the parent of a page """
+	def __init__(self, *args, **kwargs):
+		super(WordpressModifyPostParentCommand, self).__init__(*args, **kwargs)
+		self.wc = command.WordpressCommand()
+
+	""" Called to determine if the command should be enabled """
+	def is_enabled(self):
+		return self.wc.is_enabled()
+
+	""" Called when the command is ran """
+	def run(self, *args, **kwargs):  
+		# initialize anything we need for this command
+		self.setup_command(*args, **kwargs)
+
+		# initiate any threads we have
+		self.wc.init_threads(self.thread_callback)
+
+	""" Called right before the rest of the command runs """
+	def setup_command(self, *args, **kwargs):
+		# grab the passed in post id
+		self.page_id = kwargs.get('id', None)
+		self.post_type = kwargs.get('post_type', None)
+
+		if self.post_type != "page":
+			sublime.status_message('This post isn\'t a page, trying anyway...')
+			#return 
+
+		# create threaded API calls because the http connections could take awhile
+		#thread = sublpress.WordpressApiCall(GetPost(self.page_id))
+		thread = sublpress.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': self.post_type }))
+
+		# save a copy of the current view when ran
+		self.view = self.window.active_view()
+		
+		# add the thread to the list
+		self.wc.add_thread(thread)
+		self.wc.add_thread(thread2)
+
+	""" Called when the thread has returned a list of statuses and we need the user to choose one """
+	def choose_page(self, pages):
+		self.pages = pages
+		self.page_options = ["Choose a Parent", ]
+
+		for page in self.pages:
+			if self.page_id == page['id']:
+				self.page = page
+
+			self.page_options.append(page['title'])
+
+		self.wc.show_quick_panel(self.page_options, self.choose_page_callback)
+
+	""" Called when the user has chosen a page """
+	def choose_page_callback(self, index):
+		# the user cancelled the panel
+		if index == -1:
+			return 
+
+		# Do Nothing
+		if index == 0:
+			self.choose_page(self.pages)
+			return
+
+		# loop through all of the retreived taxonomies
+		for page in self.pages:
+			# check for a matching title for the selected quick panel option
+			if page['title'] == self.page_options[index]:
+				self.new_page_id = page['id']
+				self.update_page()
+
+	""" Called when the thread is finished executing """
+	def thread_callback(self, result, *args, **kwargs):
+		if type(result) is list:
+			self.pages = result
+			self.choose_page(self.pages)
+		elif type(result) is bool and result == True:
+			sublime.status_message('Post updated to have a parent id of "' + self.new_page_id + '".')
+
+	""" Called when the user wants to save the page with the new parent """
+	def update_page(self):
+
+		self.page.parent_id = self.new_page_id
+
+		thread = sublpress.WordpressApiCall(EditPost(self.page.id, self.page))
 		self.wc.add_thread(thread)
 		self.wc.init_threads(self.thread_callback)
