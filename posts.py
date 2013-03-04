@@ -582,7 +582,7 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 	""" Called when the thread has returned a list of pages and we need the user to choose one """
 	def choose_page(self, pages):
 		self.pages = pages
-		self.page_options = ["Choose a Parent", ]
+		self.page_options = [["Choose a Parent", ''], ]
 
 		for page in self.pages:
 			if self.page_id == page.id:
