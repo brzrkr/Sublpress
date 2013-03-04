@@ -43,14 +43,13 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 
 	""" Called when the quick panel is closed """
 	def panel_callback(self, index):
-
 		# the user cancelled the panel
 		if index == -1:
 			return 
 
 		# New Post (or Any Post Type)
 		if index == 0:
-			self.window.run_command('wordpress_new_post')
+			self.window.run_command('wordpress_new_post', {'post_type': self.post_type})
 			return
 		else:
 			# loop through all of the retreived posts
