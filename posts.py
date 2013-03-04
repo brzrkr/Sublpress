@@ -578,7 +578,7 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 		self.wc.add_thread(thread)
 		#self.wc.add_thread(thread2)
 
-	""" Called when the thread has returned a list of statuses and we need the user to choose one """
+	""" Called when the thread has returned a list of pages and we need the user to choose one """
 	def choose_page(self, pages):
 		self.pages = pages
 		self.page_options = ["Choose a Parent", ]
@@ -586,8 +586,12 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 		for page in self.pages:
 			if self.page_id == page.id:
 				self.page = page
+				self.cur_parent = page.parent_id
 
-			self.page_options.append(page.title)
+			if self.cur_parent == page.id:
+				self.page_options.append(self.wc.prefix + page.title)
+			else:
+				self.page_options.append(page.title)
 
 		self.wc.show_quick_panel(self.page_options, self.choose_page_callback)
 
