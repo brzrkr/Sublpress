@@ -590,7 +590,7 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 				self.cur_parent = page.parent_id
 
 			if self.cur_parent == page.id:
-				self.page_options.append([self.wc.prefix + page.title, 'ID: ' + page.id])
+				self.page_options.append([self.wc.prefix.decode('utf8')  + page.title, 'ID: ' + page.id])
 			else:
 				self.page_options.append([page.title, 'ID: ' + page.id])
 

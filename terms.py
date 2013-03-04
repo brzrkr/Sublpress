@@ -362,7 +362,7 @@ class WordpressModifyPostTermsCommand(sublime_plugin.WindowCommand):
 				term_description = "No Description"
 
 			if term.id in self.selected_terms:
-				self.term_options.append([self.wc.prefix + term.name, "ID " + term.id + ": " + term_description])
+				self.term_options.append([self.wc.prefix.decode('utf8')  + term.name, "ID " + term.id + ": " + term_description])
 			else:
 				self.term_options.append([term.name, "ID " + term.id + ": " + term_description])
 
