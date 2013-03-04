@@ -54,7 +54,7 @@ class WordpressEditSettingsCommand(sublime_plugin.WindowCommand):
 		self.cur_option.value = value
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(SetOptions(self.cur_option))
+		thread = sublpress.WordpressApiCall(SetOptions([self.cur_option]))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
