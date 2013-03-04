@@ -50,13 +50,10 @@ class WordpressEditSettingsCommand(sublime_plugin.WindowCommand):
 
 	""" Called when the input panel has received input """
 	def doDone(self, value):
-		# assign the new option value 
-		for option in self.options:
-			if option.name == self.cur_option.name:
-				option.value = value
+		to_update = {self.cur_option.name: value}
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(SetOptions(self.options))
+		thread = sublpress.WordpressApiCall(SetOptions(to_update))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
