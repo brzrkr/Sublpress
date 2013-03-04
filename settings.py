@@ -37,6 +37,10 @@ class WordpressEditSettingsCommand(sublime_plugin.WindowCommand):
 	""" Called when a thread is finished executing """
 	def thread_callback(self, result, *args, **kwargs):
 		if type(result) is list:
+			if len(result) <= 3:
+				sublime.status_message('Successfully updated ' + result[0].name + '!')
+				return
+
 			self.options = result
 			self.panel_options = []
 
@@ -45,8 +49,6 @@ class WordpressEditSettingsCommand(sublime_plugin.WindowCommand):
 					self.panel_options.append([option.name, str(option.value) + ' | ' + option.description])
 
 			self.wc.show_quick_panel(self.panel_options, self.panel_callback)
-		elif type(result) is bool and result == True:
-			sublime.status_message('Successfully updated setting.')
 
 	""" Called when the input panel has received input """
 	def doDone(self, value):
