@@ -573,7 +573,7 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 		
 		# add the thread to the list
 		self.wc.add_thread(thread)
-		self.wc.add_thread(thread2)
+		#self.wc.add_thread(thread2)
 
 	""" Called when the thread has returned a list of statuses and we need the user to choose one """
 	def choose_page(self, pages):
