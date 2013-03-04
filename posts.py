@@ -605,8 +605,8 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 		# loop through all of the retreived taxonomies
 		for page in self.pages:
 			# check for a matching title for the selected quick panel option
-			if page['title'] == self.page_options[index]:
-				self.new_page_id = page['id']
+			if page.title == self.page_options[index]:
+				self.new_page_id = page.id
 				self.update_page()
 
 	""" Called when the thread is finished executing """
