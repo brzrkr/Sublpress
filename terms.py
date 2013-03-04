@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sublime, sublime_plugin
 import os, sys, threading, zipfile, re, pprint, subprocess
 from wordpress_xmlrpc import *
