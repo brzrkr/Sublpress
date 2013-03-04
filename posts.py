@@ -584,7 +584,7 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 		self.page_options = ["Choose a Parent", ]
 
 		for page in self.pages:
-			if self.page_id == page['id']:
+			if self.page_id == page.id:
 				self.page = page
 
 			self.page_options.append(page.title)
