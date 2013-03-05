@@ -46,7 +46,7 @@ elif sys.version_info[0] == 2:
         def send_host(self, connection, host):
             return super(OurTransport, self).send_host(connection, host)
 
-        def request(self, host, handler, request_body, verbose=0):
+        def request(self, host, handler, request_body, verbose=1):
             # issue XML-RPC request
 
             h = self.make_connection(host)
