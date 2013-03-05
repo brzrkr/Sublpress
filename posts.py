@@ -162,6 +162,7 @@ class WordpressRenamePostCommand(sublime_plugin.WindowCommand):
 
 		# assign the new name to this post
 		self.post.title = name
+		self.post.post_type = None
 
 		# create threaded API call because the http connections could take awhile
 		thread = sublpress.WordpressApiCall(EditPost(self.id, self.post))

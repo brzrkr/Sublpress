@@ -77,7 +77,7 @@ elif sys.version_info[0] == 2:
                 sock = None
 
             resp = self._parse_response(h.getfile(), sock)
-            pprint.pprint(vars(resp))
+            #pprint.pprint(resp)
             return resp
 
         def getparser(self):
