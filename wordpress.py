@@ -115,7 +115,7 @@ class WordpressConnectCommand(sublime_plugin.WindowCommand):
 		if common.sp_settings == None:
 			common.sp_settings = sublime.load_settings('Wordpress.sublime-settings')
 		
-		if len(common.sp_settings.get('sites')) <= 0:
+		if not common.sp_settings.has('sites') or len(common.sp_settings.get('sites')) <= 0:
 			sublime.error_message('No sites configured.')
 			return
 
