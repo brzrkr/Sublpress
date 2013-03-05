@@ -1,7 +1,7 @@
 import collections
 import sys
 from .compat import xmlrpc_client, dict_type, http_client
-from .exceptions import ServerConnectionError, UnsupportedXmlrpcMethodError, InvalidCredentialsError, XmlrpcDisabledError
+from .exceptions import ServerConnectionError, UnsupportedXmlrpcMethodError, InvalidCredentialsError, XmlrpcDisabledError, ProtocolError
 
 if sys.version_info[0] == 3:
     class OurTransport(xmlrpc_client.Transport):
@@ -61,6 +61,8 @@ elif sys.version_info[0] == 2:
             errcode, errmsg, headers = h.getreply()
 
             if errcode != 200:
+                sublime.error_message('Error connecting: ' + errcode + ' ' + errmsg)
+                
                 raise ProtocolError(
                     host + handler,
                     errcode, errmsg,
