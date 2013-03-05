@@ -412,7 +412,7 @@ class WordpressModifyPostTermsCommand(sublime_plugin.WindowCommand):
 	def update_post(self):
 
 		self.post.terms = [term for term in self.terms if term.id in self.selected_terms]
-		pprint.pprint(self.post.terms)
+		#pprint.pprint(self.post.terms)
 
 		thread = sublpress.WordpressApiCall(EditPost(self.post.id, self.post))
 		self.wc.add_thread(thread)

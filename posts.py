@@ -494,7 +494,7 @@ class WordpressModifyPostStatusCommand(sublime_plugin.WindowCommand):
 		self.statuses = statuses
 		self.status_options = ["Choose a Status", ]
 
-		pprint.pprint(self.statuses)
+		#pprint.pprint(self.statuses)
 
 		for k, v in self.statuses.items():
 			self.status_options.append(v)

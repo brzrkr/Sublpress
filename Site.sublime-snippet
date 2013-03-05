@@ -4,7 +4,8 @@
 {
 	"host": "${2:website.com}",
 	"password": "${3:password}",
-	"username": "${4:username}"
+	"username": "${4:username}",
+	"salt": {$:salt}
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->

@@ -1,0 +1,15 @@
+{
+	"upload_on_save": true, // Unused
+	"scratch_directory": "~/.sublime/wordpress",  // Unused
+	"sites":
+	{
+		/*
+		"Site Label":
+		{
+			"host": "website.com",
+			"password": "password",
+			"username": "username"
+		}
+		*/
+	}
+}

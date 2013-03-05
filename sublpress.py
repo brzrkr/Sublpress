@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin
-import os, sys, threading, zipfile, re, pprint, subprocess, binascii, hashlib
+import os, sys, threading, zipfile, re, pprint, subprocess, binascii, hashlib, shutil
 from wordpress_xmlrpc import *
 from wordpress_xmlrpc.methods.posts import *
 from wordpress_xmlrpc.methods.taxonomies import *
@@ -17,6 +17,11 @@ def plugin_loaded():
 	# show console for debugging    
 	sublime.active_window().run_command("show_panel", { "panel": "console", "toggle": True })
 
+
+	if os.path.exists(sublime.packages_path() + "/User/Wordpress.sublime-settings"):
+		shutil.copyfile(sublime.packages_path() + "/Sublpress/Default Wordpress.sublime-settings", sublime.packages_path() + "/User/Wordpress.sublime-settings")
+		sublime.active_window().open_file(sublime.packages_path() + "/User/Wordpress.sublime-settings")
+
 	# initialize some default values
 	common.sp_wp = None
 	common.sp_settings = sublime.load_settings('Wordpress.sublime-settings')
@@ -30,7 +35,7 @@ def plugin_loaded():
 	global ran
 	ran = True
 
-	print("Sublpress loaded.")
+	#print("Sublpress loaded.")
 
 
 class WordpressManageSites(sublime_plugin.WindowCommand):
