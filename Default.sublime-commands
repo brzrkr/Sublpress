@@ -36,5 +36,9 @@
   {
     "caption": "WP: Manage Sites", 
     "command": "wordpress_manage_sites"
+  },
+  {
+    "caption": "WP: Upload Media", 
+    "command": "wordpress_upload_media"
   }
 ]
