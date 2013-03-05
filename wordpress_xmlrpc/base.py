@@ -33,11 +33,13 @@ if sys.version_info[0] == 3:
                     return self.parse_response(resp)
             
             except xmlrpc_client.Fault:
+                sublime.status_message('ERROR')
                 raise
             except Exception:
                 #All unexpected errors leave connection in
                 # a strange state, so we clear it.
                 self.close() 
+                sublime.status_message('ERROR')
                 raise
 elif sys.version_info[0] == 2:
     class OurTransport(object, xmlrpc_client.Transport):
@@ -62,6 +64,7 @@ elif sys.version_info[0] == 2:
             errcode, errmsg, headers = h.getreply()
 
             if errcode != 200:
+                sublime.status_message('ERROR')
                 raise ProtocolError(
                     host + handler,
                     errcode, errmsg,
@@ -98,11 +101,13 @@ elif sys.version_info[0] == 2:
                     return self.parse_response(resp)
             
             except xmlrpc_client.Fault:
+                sublime.status_message('ERROR')
                 raise
             except Exception:
                 #All unexpected errors leave connection in
                 # a strange state, so we clear it.
                 self.close() 
+                sublime.status_message('ERROR')
                 raise
 
 class Client(object):
