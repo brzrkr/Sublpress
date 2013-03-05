@@ -150,7 +150,8 @@ class WordpressConnectCommand(sublime_plugin.WindowCommand):
 		self.wc.init_threads(self.thread_callback)
 
 	""" Called when the thread has finished executing """
-	def thread_callback(self, index):
+	def thread_callback(self, result):
+		pprint.pprint(vars(results))
 		# display a status message
 		sublime.status_message('Connected to ' + common.sp_wp.url + ' successfully.')
 
