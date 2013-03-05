@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin
-import os, sys, threading, zipfile, re, pprint, subprocess, webbrowser 
+import os, sys, threading, zipfile, re, pprint, subprocess, webbrowser, mimetypes
 from wordpress_xmlrpc import *
 from wordpress_xmlrpc.methods.posts import *
 from wordpress_xmlrpc.methods.taxonomies import *
@@ -32,7 +32,7 @@ class WordpressUploadMediaCommand(sublime_plugin.WindowCommand):
 		# grab the id and title from the commands arguments, or the current view's status keys
 		self.id = kwargs.get('id', self.view.get_status('Post ID'))
 		self.title = kwargs.get('title', self.view.get_status('Post Title'))
-		self.post_type kwargs.get('post_type', self.view.get_status('Post Type'))
+		self.post_type = kwargs.get('post_type', self.view.get_status('Post Type'))
 
 		# show the input panel to input the name
 		self.window.show_input_panel('Path to File', '', self.doDone, None, None)
