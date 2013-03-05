@@ -1,6 +1,6 @@
 import collections
 import sys
-
+import sublime, sublime_plugin
 from .compat import xmlrpc_client, dict_type, http_client
 from .exceptions import ServerConnectionError, UnsupportedXmlrpcMethodError, InvalidCredentialsError, XmlrpcDisabledError
 
@@ -143,6 +143,7 @@ class Client(object):
             elif e.faultCode == 405:
                 raise XmlrpcDisabledError(e.faultString)
             else:
+                sublime.status_message('ERROR')
                 raise
         return method.process_result(raw_result)
 
