@@ -1,3 +1,4 @@
+import sublime, sublime_plugin
 import collections
 import sys
 from .compat import xmlrpc_client, dict_type, http_client
