@@ -630,3 +630,67 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 		thread = sublpress.WordpressApiCall(EditPost(self.page.id, self.page))
 		self.wc.add_thread(thread)
 		self.wc.init_threads(self.thread_callback)
+
+
+class WordpressManageCustomPostsCommand(sublime_plugin.WindowCommand):
+	""" Sublime Command called when the user selects the option to manage a custom post type """
+	def __init__(self, *args, **kwargs):
+		super(WordpressManageCustomPostsCommand, self).__init__(*args, **kwargs)
+		self.wc = command.WordpressCommand()
+
+	""" Called to determine if the command should be enabled """
+	def is_enabled(self):
+		return self.wc.is_enabled()
+
+	""" Called when the command is ran """
+	def run(self, *args, **kwargs):  
+		# initialize anything we need for this command
+		self.setup_command(*args, **kwargs)
+
+		# initiate any threads we have
+		self.wc.init_threads(self.thread_callback)
+
+	""" Called right before the rest of the command runs """
+	def setup_command(self, *args, **kwargs):
+		# create threaded API calls because the http connections could take awhile
+		thread = sublpress.WordpressApiCall(GetPostTypes())
+		#thread = sublpress.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': self.post_type }))
+
+		# save a copy of the current view when ran
+		self.view = self.window.active_view()
+		
+		# add the thread to the list
+		self.wc.add_thread(thread)
+
+	""" Called when the thread has returned a list of pages and we need the user to choose one """
+	def choose_type(self, types):
+		self.post_types = types
+		self.type_options = [["Choose a Post Type", ''], ]
+
+		for post_type in self.post_types:
+			self.type_options.append([post_type.label, 'Name: ' + post_type.name])
+
+		self.wc.show_quick_panel(self.type_options, self.choose_type_callback)
+
+	""" Called when the user has chosen a page """
+	def choose_type_callback(self, index):
+		# the user cancelled the panel
+		if index == -1:
+			return 
+
+		# Do Nothing
+		if index == 0:
+			self.choose_type(self.post_types)
+			return
+
+		# loop through all of the retreived post types
+		for post_type in self.post_types:
+			# check for a matching title for the selected quick panel option
+			if post_type.label == self.type_options[index][0]:
+				self.window.run_command('wordpress_manage_posts', {'post_type': post_type.name})
+
+	""" Called when the thread is finished executing """
+	def thread_callback(self, result, *args, **kwargs):
+		if type(result) is dict:
+			self.post_types = result
+			self.choose_type(self.post_types)
