@@ -1,6 +1,5 @@
 import sublime, sublime_plugin
-import collections
-import sys
+import os, sys, threading, zipfile, re, pprint, subprocess, collections
 from .compat import xmlrpc_client, dict_type, http_client
 from .exceptions import ServerConnectionError, UnsupportedXmlrpcMethodError, InvalidCredentialsError, XmlrpcDisabledError
 
