@@ -61,7 +61,7 @@ elif sys.version_info[0] == 2:
             errcode, errmsg, headers = h.getreply()
 
             if errcode != 200:
-                sublime.error_message('Error connecting: ' + errcode + ' ' + errmsg)
+                sublime.error_message('Error connecting: ' + str(errcode) + ' ' + errmsg)
                 
                 raise xmlrpc_lib.ProtocolError(
                     host + handler,
