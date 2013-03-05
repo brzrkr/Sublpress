@@ -40,6 +40,7 @@ class WordpressUploadMediaCommand(sublime_plugin.WindowCommand):
 	""" Called when the thread is finished executing """
 	def thread_callback(self, result, *args, **kwargs):
 		self.attachment = result
+		pprint.pprint(vars(result))
 
 		# Display a successful status message
 		sublime.status_message('Successfully uploaded ' + self.path + ' to an attachment with id of: ' + self.attachment.id + '.')
@@ -59,6 +60,8 @@ class WordpressUploadMediaCommand(sublime_plugin.WindowCommand):
 		# read the binary file and let the XMLRPC library encode it into base64
 		with open(self.path, 'rb') as img:
 			data['bits'] = xmlrpc_client.Binary(img.read())
+
+		pprint.pprint(vars(data))
 
 		# create threaded API call because the http connections could take awhile
 		thread = sublpress.WordpressApiCall(UploadFile(data))

@@ -76,7 +76,9 @@ elif sys.version_info[0] == 2:
             except AttributeError:
                 sock = None
 
-            return self._parse_response(h.getfile(), sock)
+            resp = self._parse_response(h.getfile(), sock)
+            pprint.pprint(vars(resp))
+            return resp
 
         def getparser(self):
             # get parser and unmarshaller
