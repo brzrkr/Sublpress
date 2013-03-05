@@ -58,7 +58,7 @@ class WordpressUploadMediaCommand(sublime_plugin.WindowCommand):
 
 		# read the binary file and let the XMLRPC library encode it into base64
 		with open(self.path, 'rb') as img:
-        	data['bits'] = xmlrpc_client.Binary(img.read())
+			data['bits'] = xmlrpc_client.Binary(img.read())
 
 		# create threaded API call because the http connections could take awhile
 		thread = sublpress.WordpressApiCall(UploadFile(data))
