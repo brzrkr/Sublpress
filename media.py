@@ -61,7 +61,7 @@ class WordpressUploadMediaCommand(sublime_plugin.WindowCommand):
 		with open(self.path, 'rb') as img:
 			data['bits'] = xmlrpc_client.Binary(img.read())
 
-		pprint.pprint(vars(data))
+		pprint.pprint(data)
 
 		# create threaded API call because the http connections could take awhile
 		thread = sublpress.WordpressApiCall(UploadFile(data))
