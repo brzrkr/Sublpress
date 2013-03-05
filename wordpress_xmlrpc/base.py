@@ -125,6 +125,7 @@ class Client(object):
             self.supported_methods = self.server.mt.supportedMethods()
         except xmlrpc_client.ProtocolError:
             e = sys.exc_info()[1]
+            sublime.status_message('ERROR')
             raise ServerConnectionError(repr(e))
 
     def call(self, method):
