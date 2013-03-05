@@ -48,7 +48,7 @@ class WordpressUploadMediaCommand(sublime_plugin.WindowCommand):
 	def doDone(self, path):
 		self.path = path
 
-		if os.path.exists(self.path):
+		if not os.path.exists(self.path):
 			sublime.error_message('Invalid path.')
 			return
 
