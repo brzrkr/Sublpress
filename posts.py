@@ -52,26 +52,41 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 		if index == 0:
 			self.window.run_command('wordpress_new_post', {'post_type': self.post_type})
 			return
-		else:
-			# loop through all of the retreived posts
-			for post in self.posts:
+		
+		# loop through all of the retreived posts
+		for post in self.posts:
+			post_id = str(post.id).ljust(4, ' ')
 
-				# check for a matching title for the selected quick panel option
-				if post.title[:50] == self.options[index][0]:
+			# check for a matching title for the selected quick panel option
+			if post_id == self.options[index][1][4:8]:
 
-					# show the user actions for this posts
-					self.window.run_command('wordpress_post_action', {'id': post.id, 'title': post.title, 'post_type': self.post_type, 'is_wp': False})
+				# show the user actions for this posts
+				self.window.run_command('wordpress_post_action', {'id': post.id, 'title': post.title, 'post_type': self.post_type, 'is_wp': False})
 
 	""" Called when a thread is finished executing """
 	def thread_callback(self, result, *args, **kwargs):
 		# save the retreived posts
 		self.posts = result
 
+		#if self.post_type == 'page':
+
+		#	self.children = [x for x in self.posts if x.parent_id != str(0)]
+#			self.posts.sort(key=lambda x: x.title)
+			#pprint.pprint(self.posts)
+
 		# loop through all of the retreived posts
 		for post in self.posts:
+			post_id = str(post.id).ljust(4, ' ')
+			pprint.pprint(post_id)
 
-			# add the post title the quick panel options
-			self.options.append([post.title[:50], post.content[:100]])
+			prefix = 'ID: ' + post_id + (' | Parent ID: ' + post.parent_id + ' :: ' if post.parent_id >= 1 else '')
+
+			self.options.append([post.title[:50], prefix + post.content[:40]])
+
+			#for child in self.children:
+				#if child.parent_id == post.id:
+					#self.options.append(['   ' + post.title[:50], '   ' + prefix + post.content[:40]])
+			
 
 		# show the quick panel
 		self.wc.show_quick_panel(self.options, self.panel_callback)
