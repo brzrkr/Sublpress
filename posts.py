@@ -7,6 +7,8 @@ from wordpress_xmlrpc.methods.taxonomies import *
 from wordpress_xmlrpc.methods.users import *  
 import common, sublpress, command
 
+child_space = '   '
+
 class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 	""" Sublime Command that shows the user a list of WordPress posts (or any custom post type) """
 	def __init__(self, *args, **kwargs):
@@ -57,9 +59,18 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 		for post in self.posts:
 			post_id = str(post.id).ljust(4, ' ')
 
-			# check for a matching title for the selected quick panel option
-			if post_id == self.options[index][1][4:8]:
+			child_check = self.options[index][1][len(child_space)+4:len(child_space)+8]
+			orig_check = self.options[index][1][4:8]
 
+			#pprint.pprint('Checking if: ' + post_id + ' is: ' + orig_check + ' or ' + child_check) 
+			is_child = False
+			for child in self.children:
+				if child.id == post.id:
+					is_child = True
+
+
+			# check for a matching title for the selected quick panel option
+			if (is_child and post_id == child_check) or (not is_child and post_id == orig_check):
 				# show the user actions for this posts
 				self.window.run_command('wordpress_post_action', {'id': post.id, 'title': post.title, 'post_type': self.post_type, 'is_wp': False})
 
@@ -75,7 +86,7 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 		# loop through all of the retreived posts
 		for post in self.posts:
 			post_id = str(post.id).ljust(4, ' ')
-			pprint.pprint(post_id)
+			#pprint.pprint(post_id)
 
 			prefix = 'ID: ' + post_id + (' | Parent ID: ' + post.parent_id + ' :: ' if post.parent_id >= 1 else '')
 
@@ -92,7 +103,7 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 				if child.parent_id == post.id:
 					child_id = str(child.id).ljust(4, ' ')
 					prefix = 'ID: ' + child_id + (' | Parent ID: ' + child.parent_id + ' :: ' if child.parent_id >= 1 else '')
-					self.options.append(['   ' + child.title[:50], '   ' + prefix + child.content[:40]])
+					self.options.append([child_space + child.title[:50], '   ' + prefix + child.content[:40]])
 			
 
 		# show the quick panel
