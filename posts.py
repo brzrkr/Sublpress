@@ -68,11 +68,9 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 		# save the retreived posts
 		self.posts = result
 
-		#if self.post_type == 'page':
-
-		#	self.children = [x for x in self.posts if x.parent_id != str(0)]
-#			self.posts.sort(key=lambda x: x.title)
-			#pprint.pprint(self.posts)
+		if self.post_type == 'page':
+			self.children = [x for x in self.posts if x.parent_id != str(0)]
+			self.posts.sort(key=lambda x: x.title)
 
 		# loop through all of the retreived posts
 		for post in self.posts:
@@ -81,11 +79,20 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 
 			prefix = 'ID: ' + post_id + (' | Parent ID: ' + post.parent_id + ' :: ' if post.parent_id >= 1 else '')
 
-			self.options.append([post.title[:50], prefix + post.content[:40]])
+			is_child = False
 
-			#for child in self.children:
-				#if child.parent_id == post.id:
-					#self.options.append(['   ' + post.title[:50], '   ' + prefix + post.content[:40]])
+			for child in self.children:
+				if child.id == post.id:
+					is_child = True
+
+			if not is_child:
+				self.options.append([post.title[:50], prefix + post.content[:40]])
+
+			for child in self.children:
+				if child.parent_id == post.id:
+					child_id = str(child.id).ljust(4, ' ')
+					prefix = 'ID: ' + child_id + (' | Parent ID: ' + child.parent_id + ' :: ' if child.parent_id >= 1 else '')
+					self.options.append(['   ' + child.title[:50], '   ' + prefix + child.content[:40]])
 			
 
 		# show the quick panel
@@ -684,7 +691,7 @@ class WordpressManageCustomPostsCommand(sublime_plugin.WindowCommand):
 		self.type_options = [["Choose a Post Type", ''], ]
 
 		for post_type in self.post_types:
-			self.type_options.append([post_type.label, 'Name: ' + post_type.name])
+			self.type_options.append([post_type, 'Name: ' + post_type])
 
 		self.wc.show_quick_panel(self.type_options, self.choose_type_callback)
 
@@ -702,8 +709,8 @@ class WordpressManageCustomPostsCommand(sublime_plugin.WindowCommand):
 		# loop through all of the retreived post types
 		for post_type in self.post_types:
 			# check for a matching title for the selected quick panel option
-			if post_type.label == self.type_options[index][0]:
-				self.window.run_command('wordpress_manage_posts', {'post_type': post_type.name})
+			if post_type == self.type_options[index][0]:
+				self.window.run_command('wordpress_manage_posts', {'post_type': post_type})
 
 	""" Called when the thread is finished executing """
 	def thread_callback(self, result, *args, **kwargs):

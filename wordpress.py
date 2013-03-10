@@ -86,7 +86,7 @@ class WordpressActionsCommand(sublime_plugin.WindowCommand):
 
 		# manage a Custom Post Type
 		if index == 4:
-			self.window.run_command('wordpress_custom_posts')
+			self.window.run_command('wordpress_manage_custom_posts')
 
 class WordpressConnectCommand(sublime_plugin.WindowCommand):
 	""" Sublime command to display the list of sites we can connect to """
