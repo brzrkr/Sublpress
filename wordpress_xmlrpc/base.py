@@ -63,7 +63,7 @@ elif sys.version_info[0] == 2:
             if errcode != 200:
                 sublime.error_message('Error connecting: ' + str(errcode) + ' ' + errmsg)
                 
-                raise xmlrpc_lib.ProtocolError(
+                raise xmlrpc_client.ProtocolError(
                     host + handler,
                     errcode, errmsg,
                     headers
@@ -121,9 +121,9 @@ class Client(object):
         self.username = username
         self.password = password
         self.blog_id = blog_id
-        self.transport = OurTransport()
-
+    
         try:
+            self.transport = OurTransport()
             self.server = xmlrpc_client.ServerProxy(url, transport=self.transport, allow_none=True, verbose=False)
             self.supported_methods = self.server.mt.supportedMethods()
         except xmlrpc_client.ProtocolError:
