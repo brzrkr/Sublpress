@@ -14,7 +14,7 @@ def plugin_loaded():
 	# log commands for debugging 
 	#sublime.log_commands(True)
  
-	# show console for debugging    
+	# show console for debugging      
 	#sublime.active_window().run_command("show_panel", { "panel": "console", "toggle": True })
 
 	if not os.path.exists(sublime.packages_path() + "/User/Wordpress.sublime-settings"):

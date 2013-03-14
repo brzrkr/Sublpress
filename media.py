@@ -56,9 +56,10 @@ class WordpressUploadMediaCommand(sublime_plugin.WindowCommand):
 
 			# loop through all of the retreived posts
 			for post in self.posts:
+				prefix = 'ID: ' + post.id
 
 				# add the post title the quick panel options
-				self.post_options.append([post.title[:50], post.content[:100]])
+				self.post_options.append([post.title[:50], prefix + post.content[:40]])
 
 			# show the quick panel
 			self.wc.show_quick_panel(self.post_options, self.post_panel_callback)

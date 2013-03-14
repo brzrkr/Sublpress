@@ -40,5 +40,9 @@
   {
     "caption": "WP: Upload Media", 
     "command": "wordpress_upload_media"
+  },
+  {
+    "caption": "WP: Manage Custom Post Type",
+    "command": "wordpress_manage_custom_posts"
   }
 ]
