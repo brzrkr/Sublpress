@@ -1,13 +1,15 @@
-sublpress
+# sublpress
 =========
 
-### You can also leave feedback at [dnstbr.me/labs/sublpress](http://dnstbr.me/index.php/labs/sublpress)
+## You can also leave feedback at [dnstbr.me/labs/sublpress](http://dnstbr.me/index.php/labs/sublpress)
 
-### Description
+## Description
 
-Sublepress is a Sublime Text 2 / 3 plugin to manage WordPress 3.5 installations from within Sublime Text. The mostly quick panel based system allows for managing settings, posts(and custom post types), pages and taxonomy terms of a WordPress blog.
+Sublepress is a Sublime Text 2 / 3 plugin to manage WordPress 3.5 installations from within Sublime Text. The mostly quick panel based system allows for managing settings, posts(and custom post types), pages and taxonomy terms of a WordPress blog. 
 
-### Feature List
+Everything in Sublpress is controllyed mostly via quick panel. You usually go through a few menus and then a post will open up in a onother tab and any changes you make and then save will be reflected on the blog. The status bar will display a loading indicator and usually a success or failure message depending on an action's result.
+
+## Feature List
 - Create, Edit, Delete, Rename Posts
 - Create, Edit, Delete, Rename Pages
 - Create, Edit, Delete, Rename Posts of a Custom Post Type
@@ -16,7 +18,9 @@ Sublepress is a Sublime Text 2 / 3 plugin to manage WordPress 3.5 installations 
 - Edit Terms and Taxonomies associated with a Post
 - Change WordPress settings
 
-### Screenshots
+## Screenshots
+Just a few examples of the actions that come with Sublpress right now.
+
 <div style="width:50%;float:left;">
 	<h3>Choosing a WordPress Host ("WP: Connect to Site")</h3>
 	<img src="http://cl.zombierelief.com/image/180V1X3M1P3f/Image%202013.03.17%2011:29:42%20AM.png" width="50%" />
