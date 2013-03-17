@@ -17,7 +17,7 @@ Sublepress is a Sublime Text 2 / 3 plugin to manage WordPress 3.5 installations 
 - Change WordPress settings
 
 ### Installation (waiting on approval for Package Control)
-~~The most straightforward installation method is via [Will Bond's](http://wbond.net/) [Package Control](http://wbond.net/sublime_packages/package_control/package_developers). If you prefer, you can also ~~clone (or copy the contents of) this repository into your Sublime Text `./Packages` folder:
+Clone (or copy the contents of) this repository into your Sublime Text `./Packages` folder:
 
     git clone https://github.com/dnstbr/sublpress.git
 
