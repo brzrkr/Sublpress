@@ -1,7 +1,6 @@
 # sublpress
 =========
-
-## You can also leave feedback at [dnstbr.me/labs/sublpress](http://dnstbr.me/index.php/labs/sublpress)
+You can also leave feedback at [dnstbr.me/labs/sublpress](http://dnstbr.me/index.php/labs/sublpress)
 
 ## Description
 
