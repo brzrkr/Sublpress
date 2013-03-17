@@ -5,6 +5,15 @@ sublpress
 
 Sublepress is a Sublime Text 2 / 3 plugin to manage WordPress 3.5 installations from within Sublime Text. The mostly quick panel based system allows for managing settings, posts(and custom post types), pages and taxonomy terms of a WordPress blog.
 
+### Feature List
+	Create, Edit, Delete, Rename Posts
+	Create, Edit, Delete, Rename Pages
+	Create, Edit, Delete, Rename Posts of a Custom Post Type
+	Create, Delete, Rename Terms in a Taxonomy
+	Upload Media (with Assign as Featured Image action)
+	Edit Terms and Taxonomies associated with a Post
+	Change WordPress settings
+
 ### Installation
 The most straightforward installation method is via [Will Bond's](http://wbond.net/) [Package Control](http://wbond.net/sublime_packages/package_control/package_developers). If you prefer, you can also clone (or copy the contents of) this repository into your Sublime Text `./Packages` folder:
 
