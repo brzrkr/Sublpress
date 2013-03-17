@@ -1,18 +1,19 @@
 sublpress
 =========
 
-A Sublime Text 2/3 Plugin to manage WordPress 3.5.1+ websites.
+### Description
 
+Sublepress is a Sublime Text 2 / 3 plugin to manage WordPress 3.5 installations from within Sublime Text. The mostly quick panel based system allows for managing settings, posts(and custom post types), pages and taxonomy terms of a WordPress blog.
 
-It's a mostly quick panel based system for managing settings, posts, pages and taxonomy terms of a WordPress blog.
+### Installation
+The most straightforward installation method is via [Will Bond's](http://wbond.net/) [Package Control](http://wbond.net/sublime_packages/package_control/package_developers). If you prefer, you can also clone (or copy the contents of) this repository into your Sublime Text `./Packages` folder:
 
+    git clone https://github.com/dnstbr/sublpress.git
+
+### Configuration
 To start, you'll need to setup a WordPress site config to connect to. A settings file has been created for you in your 
 <sublime package dir>/User/ folder. To edit it open the command palette and look for "WP: Manage Sites". A snippet has
 been provided to make it easy to add new configurations, you can complete it by typing "site" without the quotes 
 and pressing tab. You can continue pressing tab to cycle through the various options.
 
-After adding a site connect to by finding "WP: Connect to Site" in the command palette. From there it should be relatively
-easy to figure out. Beware it is under heavy construction still.
-
---
-A big shoutout to Will Bond and NetTuts for their tutorial on making sublime plugins. 
+After adding a site connect to by finding "WP: Connect to Site" in the command palette.
