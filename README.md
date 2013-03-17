@@ -17,22 +17,38 @@ Sublepress is a Sublime Text 2 / 3 plugin to manage WordPress 3.5 installations 
 - Change WordPress settings
 
 ### Screenshots
-- Choosing a WordPress Host ("WP: Connect to Site")
-- ![Choosing a Wordpress Host](http://cl.zombierelief.com/image/180V1X3M1P3f/Image%202013.03.17%2011:29:42%20AM.png)
-- After Selecting a Host 
-- ![After Selecting a Host](http://cl.zombierelief.com/image/1f0g0D0E0W0p/Image%202013.03.17%2011:30:00%20AM.png)
-- Edit Settings ("WP: Edit Settings")
-- ![Edit Settings](http://cl.zombierelief.com/image/0X3g3E1K220e/Image%202013.03.17%2011:30:11%20AM.png)
-- Manage All Pages ("WP: Manage all Pages")
-- ![Manage all Pages](http://cl.zombierelief.com/image/3g3C2E2A2y2M/Image%202013.03.17%2011:30:28%20AM.png)
-- Page or Post Actions ("WP: Post Actions")
-- ![Page or Post Actions](http://cl.zombierelief.com/image/112k1f0X1w26/Image%202013.03.17%2011:30:42%20AM.png)
-- Term Management for Page or Post ("WP: Post Actions")
-- ![Term Management for Page or Post](http://f.cl.ly/items/0y1x2G171z1J093C2p0c/Image%202013.03.17%2011:31:00%20AM.png)
-- List of Actions ("WP:")
-- ![List of Actions](http://f.cl.ly/items/3w0H1e2d2b1V0C313z13/Image%202013.03.17%2011:27:15%20AM.png)
-- Example Site Config ("WP: Manage Site")
-- ![Example Site Config](http://cl.zombierelief.com/image/1R293w2q2P37/Image%202013.03.17%2011:28:42%20AM.png)
+<div style="width:50%;float:left;">
+	<h3>Choosing a WordPress Host ("WP: Connect to Site")
+	<img src="http://cl.zombierelief.com/image/180V1X3M1P3f/Image%202013.03.17%2011:29:42%20AM.png" />
+</div>
+<div style="width:50%;float:left;">
+	<h3>After Selecting a Host 
+	<img src="http://cl.zombierelief.com/image/1f0g0D0E0W0p/Image%202013.03.17%2011:30:00%20AM.png" />
+</div>
+<div style="width:50%;float:left;">
+	<h3>Edit Settings ("WP: Edit Settings")
+	<img src="http://cl.zombierelief.com/image/0X3g3E1K220e/Image%202013.03.17%2011:30:11%20AM.png" />
+</div>
+<div style="width:50%;float:left;">
+	<h3>Manage All Pages ("WP: Manage all Pages")
+	<img src="http://cl.zombierelief.com/image/3g3C2E2A2y2M/Image%202013.03.17%2011:30:28%20AM.png" />
+</div>
+<div style="width:50%;float:left;">
+	<h3>Page or Post Actions ("WP: Post Actions")
+	<img src="http://cl.zombierelief.com/image/112k1f0X1w26/Image%202013.03.17%2011:30:42%20AM.png" />
+</div>
+<div style="width:50%;float:left;">
+	<h3>Term Management for Page or Post ("WP: Post Actions")
+	<img src="http://f.cl.ly/items/0y1x2G171z1J093C2p0c/Image%202013.03.17%2011:31:00%20AM.png" />
+</div>
+<div style="width:50%;float:left;">
+	<h3>List of Actions ("WP:")
+	<img src="http://f.cl.ly/items/3w0H1e2d2b1V0C313z13/Image%202013.03.17%2011:27:15%20AM.png" />
+</div>
+<div style="width:50%;float:left;">
+	<h3>Example Site Config ("WP: Manage Site")
+	<img src="http://cl.zombierelief.com/image/1R293w2q2P37/Image%202013.03.17%2011:28:42%20AM.png" />
+</div>
 
 ### Installation (waiting on approval for Package Control)
 Clone (or copy the contents of) this repository into your Sublime Text `./Packages` folder:
