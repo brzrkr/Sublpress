@@ -4,7 +4,7 @@ You can also leave feedback at [dnstbr.me/labs/sublpress](http://dnstbr.me/index
 
 ## Description
 
-Sublepress is a Sublime Text 2 / 3 plugin to manage WordPress 3.5 installations from within Sublime Text. The mostly quick panel based system allows for managing settings, posts(and custom post types), pages and taxonomy terms of a WordPress blog. 
+Sublpress is a Sublime Text 2 / 3 plugin to manage WordPress 3.5 installations from within Sublime Text. The mostly quick panel based system allows for managing settings, posts(and custom post types), pages and taxonomy terms of a WordPress blog. 
 
 Everything in Sublpress is controllyed mostly via quick panel. You usually go through a few menus and then a post will open up in a onother tab and any changes you make and then save will be reflected on the blog. The status bar will display a loading indicator and usually a success or failure message depending on an action's result.
 
