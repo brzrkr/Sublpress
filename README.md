@@ -18,7 +18,7 @@ Everything in Sublpress is controllyed mostly via quick panel. You usually go th
 - Change WordPress settings
 
 ## Screenshots
-Just a few examples of the actions that come with Sublpress right now.
+A few examples of the actions that come with Sublpress right now:
 
 <div style="width:50%;float:left;">
 	<h3>Choosing a WordPress Host ("WP: Connect to Site")</h3>
