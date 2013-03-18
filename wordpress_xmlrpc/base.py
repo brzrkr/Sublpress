@@ -1,7 +1,24 @@
 import sublime, sublime_plugin
-import os, sys, threading, zipfile, re, pprint, subprocess, collections
+import os, sys, threading, zipfile, re, pprint, subprocess, collections, string, time, operator
 from .compat import xmlrpc_client, dict_type, http_client
 from .exceptions import ServerConnectionError, UnsupportedXmlrpcMethodError, InvalidCredentialsError, XmlrpcDisabledError
+   
+class sublUnmarshaller(xmlrpc_client.Unmarshaller):
+    def start(self, tag, attrs):
+        # prepare to handle this element
+        if tag == "array" or tag == "struct":
+            self._marks.append(len(self._stack))
+        self._data = []
+        self._value = (tag == "value")
+
+    def end(self, tag, join=None):
+        # call the appropriate end tag handler
+        try:
+            f = self.dispatch[tag]
+        except KeyError:
+            pass # unknown tag ?
+        else:
+            return f(self, string.join(self._data, ""))
 
 if sys.version_info[0] == 3:
     class OurTransport(xmlrpc_client.Transport):
@@ -80,9 +97,15 @@ elif sys.version_info[0] == 2:
             #pprint.pprint(resp)
             return resp
 
-        def getparser(self):
-            # get parser and unmarshaller
-            return xmlrpc_client.getparser()
+        def getparser(self, use_datetime=0):
+            if use_datetime and not datetime:
+                raise ValueError("the datetime module is not available")
+
+            
+            target = sublUnmarshaller(use_datetime=use_datetime)
+            parser = xmlrpc_client.ExpatParser(target) 
+
+            return parser, target
 
         def make_connection(self, host):
             # create a HTTP connection object from a host descriptor

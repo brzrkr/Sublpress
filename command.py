@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin
 import os, sys, threading, zipfile, re, pprint, subprocess
-from wordpress_xmlrpc import *
-from wordpress_xmlrpc.methods.posts import *
-from wordpress_xmlrpc.methods.taxonomies import *
-from wordpress_xmlrpc.methods.users import *
-import common, sublpress
+if sys.version_info[0] == 3:
+	from .wordpress_xmlrpc import *
+	from .wordpress_xmlrpc.methods.posts import *
+	from .wordpress_xmlrpc.methods.taxonomies import *
+	from .wordpress_xmlrpc.methods.users import *
+	from . import common
+else:
+	from wordpress_xmlrpc import *
+	from wordpress_xmlrpc.methods.posts import *
+	from wordpress_xmlrpc.methods.taxonomies import *
+	from wordpress_xmlrpc.methods.users import *
+	import common
+
 
 class WordpressCommand():
 	def __init__(self, *args, **kwargs):

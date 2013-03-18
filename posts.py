@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin
 import os, sys, threading, zipfile, re, pprint, subprocess, webbrowser 
-from wordpress_xmlrpc import *
-from wordpress_xmlrpc.methods.posts import *
-from wordpress_xmlrpc.methods.taxonomies import *
-from wordpress_xmlrpc.methods.users import *  
-import common, sublpress, command
+if sys.version_info[0] == 3:
+	from .wordpress_xmlrpc import *
+	from .wordpress_xmlrpc.methods.posts import *
+	from .wordpress_xmlrpc.methods.taxonomies import *
+	from .wordpress_xmlrpc.methods.users import *
+	from . import *
+else:
+	from wordpress_xmlrpc import *
+	from wordpress_xmlrpc.methods.posts import *
+	from wordpress_xmlrpc.methods.taxonomies import *
+	from wordpress_xmlrpc.methods.users import *
+	import common, plugin, command
+
 
 child_space = '   '
 
@@ -36,7 +44,7 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 		self.post_type = kwargs.get('post_type', 'post') 
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': self.post_type }))
+		thread = plugin.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': self.post_type }))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -77,7 +85,7 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 	""" Called when a thread is finished executing """
 	def thread_callback(self, result, *args, **kwargs):
 		# save the retreived posts
-		self.posts = result
+		self.posts = result			
 
 		if self.post_type == 'page':
 			self.children = [x for x in self.posts if x.parent_id != str(0)]
@@ -88,7 +96,7 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 			post_id = str(post.id).ljust(4, ' ')
 			#pprint.pprint(post_id)
 
-			prefix = 'ID: ' + post_id + (' | Parent ID: ' + post.parent_id + ' :: ' if post.parent_id >= 1 else '')
+			prefix = 'ID: ' + post_id + (' | Parent ID: ' + post.parent_id + ' :: ' if int(post.parent_id) >= 1 else '')
 
 			is_child = False
 
@@ -102,7 +110,7 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 			for child in self.children:
 				if child.parent_id == post.id:
 					child_id = str(child.id).ljust(4, ' ')
-					prefix = 'ID: ' + child_id + (' | Parent ID: ' + child.parent_id + ' :: ' if child.parent_id >= 1 else '')
+					prefix = 'ID: ' + child_id + (' | Parent ID: ' + child.parent_id + ' :: ' if int(child.parent_id) >= 1 else '')
 					self.options.append([child_space + child.title[:50], '   ' + prefix + child.content[:40]])
 			
 
@@ -137,7 +145,7 @@ class WordpressDeletePostCommand(sublime_plugin.WindowCommand):
 		self.title = kwargs.get('title', self.view.get_status('Post Title'))
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(DeletePost(self.id))
+		thread = plugin.WordpressApiCall(DeletePost(self.id))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -198,7 +206,7 @@ class WordpressRenamePostCommand(sublime_plugin.WindowCommand):
 		self.post.post_type = None
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(EditPost(self.id, self.post))
+		thread = plugin.WordpressApiCall(EditPost(self.id, self.post))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -314,7 +322,7 @@ class WordpressSavePostCommand(sublime_plugin.WindowCommand):
 		# check if this view is a WordPress post
 		if self.post_id:
 			# create threaded API call because the http connections could take awhile
-			thread = sublpress.WordpressApiCall(GetPost(self.post_id))
+			thread = plugin.WordpressApiCall(GetPost(self.post_id))
 
 			# add the thread to the list
 			self.wc.add_thread(thread)
@@ -347,7 +355,7 @@ class WordpressSavePostCommand(sublime_plugin.WindowCommand):
 
 		if self.post_id and self.post:
 			# create threaded API call because the http connections could take awhile
-			thread = sublpress.WordpressApiCall(EditPost(self.post.id, self.post))
+			thread = plugin.WordpressApiCall(EditPost(self.post.id, self.post))
 
 			# add the thread to the list
 			self.wc.add_thread(thread)
@@ -378,7 +386,7 @@ class WordpressEditPostCommand(sublime_plugin.WindowCommand):
 	""" Called right before the rest of the command runs """
 	def setup_command(self, *args, **kwargs):
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(GetPost(kwargs.get('id')))
+		thread = plugin.WordpressApiCall(GetPost(kwargs.get('id')))
 		self.view = self.window.active_view()
 		
 		# add the thread to the list
@@ -434,7 +442,7 @@ class WordpressNewPostCommand(sublime_plugin.WindowCommand):
 		self.post.post_type = self.post_type
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(NewPost(self.post))
+		thread = plugin.WordpressApiCall(NewPost(self.post))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -475,7 +483,7 @@ class WordpressViewPostCommand(sublime_plugin.WindowCommand):
 		self.title = kwargs.get('title', self.view.get_status('Post Title'))
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(GetPost(self.id))
+		thread = plugin.WordpressApiCall(GetPost(self.id))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -513,8 +521,8 @@ class WordpressModifyPostStatusCommand(sublime_plugin.WindowCommand):
 		self.post_id = kwargs.get('id', None)
 
 		# create threaded API calls because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(GetPost(self.post_id))
-		thread2 = sublpress.WordpressApiCall(GetPostStatusList())
+		thread = plugin.WordpressApiCall(GetPost(self.post_id))
+		thread2 = plugin.WordpressApiCall(GetPostStatusList())
 		
 		# save a copy of the current view when ran
 		self.view = self.window.active_view()
@@ -569,7 +577,7 @@ class WordpressModifyPostStatusCommand(sublime_plugin.WindowCommand):
 
 		self.post.post_status = self.cur_status
 
-		thread = sublpress.WordpressApiCall(EditPost(self.post.id, self.post))
+		thread = plugin.WordpressApiCall(EditPost(self.post.id, self.post))
 		self.wc.add_thread(thread)
 		self.wc.init_threads(self.thread_callback)
 
@@ -603,8 +611,8 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 			#return 
 
 		# create threaded API calls because the http connections could take awhile
-		#thread = sublpress.WordpressApiCall(GetPost(self.page_id))
-		thread = sublpress.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': self.post_type }))
+		#thread = plugin.WordpressApiCall(GetPost(self.page_id))
+		thread = plugin.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': self.post_type }))
 
 		# save a copy of the current view when ran
 		self.view = self.window.active_view()
@@ -661,7 +669,7 @@ class WordpressModifyPostParentCommand(sublime_plugin.WindowCommand):
 
 		self.page.parent_id = self.new_page_id
 
-		thread = sublpress.WordpressApiCall(EditPost(self.page.id, self.page))
+		thread = plugin.WordpressApiCall(EditPost(self.page.id, self.page))
 		self.wc.add_thread(thread)
 		self.wc.init_threads(self.thread_callback)
 
@@ -687,8 +695,8 @@ class WordpressManageCustomPostsCommand(sublime_plugin.WindowCommand):
 	""" Called right before the rest of the command runs """
 	def setup_command(self, *args, **kwargs):
 		# create threaded API calls because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(GetPostTypes())
-		#thread = sublpress.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': self.post_type }))
+		thread = plugin.WordpressApiCall(GetPostTypes())
+		#thread = plugin.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': self.post_type }))
 
 		# save a copy of the current view when ran
 		self.view = self.window.active_view()

@@ -1,12 +1,21 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin
 import os, sys, threading, zipfile, re, pprint, subprocess, webbrowser, mimetypes
-from wordpress_xmlrpc import *
-from wordpress_xmlrpc.methods.posts import *
-from wordpress_xmlrpc.methods.taxonomies import *
-from wordpress_xmlrpc.methods.users import *  
-from wordpress_xmlrpc.methods.media import *  
-import common, sublpress, command
+if sys.version_info[0] == 3:
+	from .wordpress_xmlrpc import *
+	from .wordpress_xmlrpc.methods.posts import *
+	from .wordpress_xmlrpc.methods.taxonomies import *
+	from .wordpress_xmlrpc.methods.users import *
+	from .wordpress_xmlrpc.methods.media import *
+	from . import *
+else:
+	from wordpress_xmlrpc import *
+	from wordpress_xmlrpc.methods.posts import *
+	from wordpress_xmlrpc.methods.taxonomies import *
+	from wordpress_xmlrpc.methods.users import *
+	from wordpress_xmlrpc.methods.media import *
+	import common, plugin, command
+
 
 class WordpressUploadMediaCommand(sublime_plugin.WindowCommand):
 	""" Sublime Command that uploads an image as a WordPress Media Attachment """
@@ -69,10 +78,10 @@ class WordpressUploadMediaCommand(sublime_plugin.WindowCommand):
 			return
 		elif index == 0:
 			self.post_type = 'post'
-			thread = sublpress.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': 'post' }))
+			thread = plugin.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': 'post' }))
 		elif index == 1:
 			self.post_type = 'page'
-			thread = sublpress.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': 'page' }))
+			thread = plugin.WordpressApiCall(GetPosts({ 'number': 200, 'post_type': 'page' }))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -110,7 +119,7 @@ class WordpressUploadMediaCommand(sublime_plugin.WindowCommand):
 		pprint.pprint(data)
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(UploadFile(data))
+		thread = plugin.WordpressApiCall(UploadFile(data))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -151,7 +160,7 @@ class WordpressAssignFeaturedImageCommand(sublime_plugin.WindowCommand):
 		post.post_type = None
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(EditPost(post.id, post))
+		thread = plugin.WordpressApiCall(EditPost(post.id, post))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)

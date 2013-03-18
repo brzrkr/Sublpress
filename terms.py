@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin
 import os, sys, threading, zipfile, re, pprint, subprocess
-from wordpress_xmlrpc import *
-from wordpress_xmlrpc.methods.posts import *
-from wordpress_xmlrpc.methods.taxonomies import *
-from wordpress_xmlrpc.methods.users import *
-import common, sublpress, command  
+if sys.version_info[0] == 3:
+	from .wordpress_xmlrpc import *
+	from .wordpress_xmlrpc.methods.posts import *
+	from .wordpress_xmlrpc.methods.taxonomies import *
+	from .wordpress_xmlrpc.methods.users import *
+	from . import *
+else:
+	from wordpress_xmlrpc import *
+	from wordpress_xmlrpc.methods.posts import *
+	from wordpress_xmlrpc.methods.taxonomies import *
+	from wordpress_xmlrpc.methods.users import *
+	import common, plugin, command
+
 
 class WordpressManageTaxesCommand(sublime_plugin.WindowCommand):
 	""" Sublime Command that shows the user a list of WordPress taxonomies, or for a specific post type"""
@@ -28,7 +36,7 @@ class WordpressManageTaxesCommand(sublime_plugin.WindowCommand):
 	""" Called right before the rest of the command runs """
 	def setup_command(self, *args, **kwargs):
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(GetTaxonomies())
+		thread = plugin.WordpressApiCall(GetTaxonomies())
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -85,7 +93,7 @@ class WordpressManageTermsCommand(sublime_plugin.WindowCommand):
 		self.taxonomy = kwargs.get('taxonomy', None)
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(GetTerms(self.taxonomy))
+		thread = plugin.WordpressApiCall(GetTerms(self.taxonomy))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -131,7 +139,7 @@ class WordpressRenameTermCommand(sublime_plugin.WindowCommand):
 		self.term.name = name
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(EditTerm(self.term.id, self.term))
+		thread = plugin.WordpressApiCall(EditTerm(self.term.id, self.term))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -184,7 +192,7 @@ class WordpressNewTermCommand(sublime_plugin.WindowCommand):
 		self.term.name = name
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(NewTerm(self.term))
+		thread = plugin.WordpressApiCall(NewTerm(self.term))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -233,7 +241,7 @@ class WordpressDeleteTermCommand(sublime_plugin.WindowCommand):
 	""" Called right before the rest of the command runs """
 	def setup_command(self, *args, **kwargs):
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(DeleteTerm(kwargs.get('taxonomy', None), kwargs.get('id')))
+		thread = plugin.WordpressApiCall(DeleteTerm(kwargs.get('taxonomy', None), kwargs.get('id')))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -311,8 +319,8 @@ class WordpressModifyPostTermsCommand(sublime_plugin.WindowCommand):
 		self.selected_terms = []
 
 		# create threaded API calls because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(GetPost(self.post_id))
-		thread2 = sublpress.WordpressApiCall(GetTaxonomies())
+		thread = plugin.WordpressApiCall(GetPost(self.post_id))
+		thread2 = plugin.WordpressApiCall(GetTaxonomies())
 		
 		# save a copy of the current view when ran
 		self.view = self.window.active_view()
@@ -347,7 +355,7 @@ class WordpressModifyPostTermsCommand(sublime_plugin.WindowCommand):
 			# check for a matching title for the selected quick panel option
 			if tax.name == self.taxonomy_options[index]:
 				self.cur_tax = tax
-				thread = sublpress.WordpressApiCall(GetTerms(tax.name))
+				thread = plugin.WordpressApiCall(GetTerms(tax.name))
 				self.wc.add_thread(thread)
 				self.wc.init_threads(self.thread_callback)
 
@@ -414,6 +422,6 @@ class WordpressModifyPostTermsCommand(sublime_plugin.WindowCommand):
 		self.post.terms = [term for term in self.terms if term.id in self.selected_terms]
 		#pprint.pprint(self.post.terms)
 
-		thread = sublpress.WordpressApiCall(EditPost(self.post.id, self.post))
+		thread = plugin.WordpressApiCall(EditPost(self.post.id, self.post))
 		self.wc.add_thread(thread)
 		self.wc.init_threads(self.thread_callback)

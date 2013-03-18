@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin
 import os, sys, threading, zipfile, re, pprint, subprocess
-from wordpress_xmlrpc import *
-from wordpress_xmlrpc.methods.posts import *
-from wordpress_xmlrpc.methods.taxonomies import *
-from wordpress_xmlrpc.methods.users import *
-import common, sublpress, command
+if sys.version_info[0] == 3:
+	from .wordpress_xmlrpc import *
+	from .wordpress_xmlrpc.methods.posts import *
+	from .wordpress_xmlrpc.methods.taxonomies import *
+	from .wordpress_xmlrpc.methods.users import *
+	from . import *
+else:
+	from wordpress_xmlrpc import *
+	from wordpress_xmlrpc.methods.posts import *
+	from wordpress_xmlrpc.methods.taxonomies import *
+	from wordpress_xmlrpc.methods.users import *
+	import common, plugin, command
 
 class WordpressInsertCommand(sublime_plugin.TextCommand):
 	""" Sublime Text Command to insert content into the active view """
@@ -141,7 +148,7 @@ class WordpressConnectCommand(sublime_plugin.WindowCommand):
 		url = 'http://' + site['host'] + '/xmlrpc.php'
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressConnectCall(url, site['username'], site['password'])
+		thread = plugin.WordpressConnectCall(url, site['username'], site['password'])
 
 		# add the thread to the list
 		self.wc.add_thread(thread)

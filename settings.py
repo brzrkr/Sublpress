@@ -1,12 +1,22 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin
 import os, sys, threading, zipfile, re, pprint, subprocess
-from wordpress_xmlrpc import *
-from wordpress_xmlrpc.methods.posts import *
-from wordpress_xmlrpc.methods.taxonomies import *
-from wordpress_xmlrpc.methods.users import *
-from wordpress_xmlrpc.methods.options import *
-import common, sublpress, command
+if sys.version_info[0] == 3:
+	from .wordpress_xmlrpc import *
+	from .wordpress_xmlrpc.methods.posts import *
+	from .wordpress_xmlrpc.methods.taxonomies import *
+	from .wordpress_xmlrpc.methods.users import *
+	from .wordpress_xmlrpc.methods.options import *
+	from . import *
+else:
+	from wordpress_xmlrpc import *
+	from wordpress_xmlrpc.methods.posts import *
+	from wordpress_xmlrpc.methods.taxonomies import *
+	from wordpress_xmlrpc.methods.users import *
+	from wordpress_xmlrpc.methods.options import *
+	import common, plugin, command
+
+
 
 class WordpressEditSettingsCommand(sublime_plugin.WindowCommand):
 	""" Sublime Command that shows the user a list of WordPress settings, allowing the user to cahnge """
@@ -29,7 +39,7 @@ class WordpressEditSettingsCommand(sublime_plugin.WindowCommand):
 	""" Called right before the rest of the command runs """
 	def setup_command(self, *args, **kwargs):
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(GetOptions([]))
+		thread = plugin.WordpressApiCall(GetOptions([]))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
@@ -55,7 +65,7 @@ class WordpressEditSettingsCommand(sublime_plugin.WindowCommand):
 		to_update = {self.cur_option.name: value}
 
 		# create threaded API call because the http connections could take awhile
-		thread = sublpress.WordpressApiCall(SetOptions(to_update))
+		thread = plugin.WordpressApiCall(SetOptions(to_update))
 
 		# add the thread to the list
 		self.wc.add_thread(thread)
