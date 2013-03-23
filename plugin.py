@@ -26,7 +26,7 @@ def plugin_loaded():
 	#sublime.active_window().run_command("show_panel", { "panel": "console", "toggle": True })
  
 	if not os.path.exists(sublime.packages_path() + "/User/Wordpress.sublime-settings"):
-		shutil.copyfile(sublime.packages_path() + "/Sublpress/Default Wordpress.sublime-settings", sublime.packages_path() + "/User/Wordpress.sublime-settings")
+		shutil.copyfile(sublime.packages_path() + "/sublpress/Default Wordpress.sublime-settings", sublime.packages_path() + "/User/Wordpress.sublime-settings")
 		sublime.active_window().open_file(sublime.packages_path() + "/User/Wordpress.sublime-settings")
 
 	# initialize some default values
