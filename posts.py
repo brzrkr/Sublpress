@@ -39,6 +39,7 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 	def setup_command(self, *args, **kwargs):
 		# initialize empty posts array
 		self.posts = []  
+		self.children = None
 
 		# grab post_type argument or substitute with a post type of post
 		self.post_type = kwargs.get('post_type', 'post') 
@@ -72,9 +73,11 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 
 			#pprint.pprint('Checking if: ' + post_id + ' is: ' + orig_check + ' or ' + child_check) 
 			is_child = False
-			for child in self.children:
-				if child.id == post.id:
-					is_child = True
+
+			if(self.children != None):
+				for child in self.children:
+					if child.id == post.id:
+						is_child = True
 
 
 			# check for a matching title for the selected quick panel option
@@ -100,18 +103,20 @@ class WordpressManagePostsCommand(sublime_plugin.WindowCommand):
 
 			is_child = False
 
-			for child in self.children:
-				if child.id == post.id:
-					is_child = True
+			if(self.children != None):
+				for child in self.children:
+					if child.id == post.id:
+						is_child = True
 
 			if not is_child:
 				self.options.append([post.title[:50], prefix + post.content[:40]])
 
-			for child in self.children:
-				if child.parent_id == post.id:
-					child_id = str(child.id).ljust(4, ' ')
-					prefix = 'ID: ' + child_id + (' | Parent ID: ' + child.parent_id + ' :: ' if int(child.parent_id) >= 1 else '')
-					self.options.append([child_space + child.title[:50], '   ' + prefix + child.content[:40]])
+			if(self.children != None):
+				for child in self.children:
+					if child.parent_id == post.id:
+						child_id = str(child.id).ljust(4, ' ')
+						prefix = 'ID: ' + child_id + (' | Parent ID: ' + child.parent_id + ' :: ' if int(child.parent_id) >= 1 else '')
+						self.options.append([child_space + child.title[:50], '   ' + prefix + child.content[:40]])
 			
 
 		# show the quick panel

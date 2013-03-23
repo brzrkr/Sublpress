@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin
-import os, sys, threading, zipfile, re, pprint, subprocess, binascii, hashlib, shutil
+import os, sys, threading, shutil
 if sys.version_info[0] == 3:
 	from .wordpress_xmlrpc import *
 	from .wordpress_xmlrpc.methods.posts import *
@@ -20,10 +20,10 @@ ran = False
 """ Called by Sublime after Sublime has loaded and is ready to load Sublpress """
 def plugin_loaded():
 	# log commands for debugging  
-	#sublime.log_commands(True)
+	sublime.log_commands(True)
    
 	# show console for debugging      
-	#sublime.active_window().run_command("show_panel", { "panel": "console", "toggle": True })
+	sublime.active_window().run_command("show_panel", { "panel": "console", "toggle": True })
  
 	if not os.path.exists(sublime.packages_path() + "/User/Wordpress.sublime-settings"):
 		shutil.copyfile(sublime.packages_path() + "/Sublpress/Default Wordpress.sublime-settings", sublime.packages_path() + "/User/Wordpress.sublime-settings")
