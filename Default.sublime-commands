@@ -1,5 +1,14 @@
 [
   {
+    "caption": "WP: Search",
+    "command": "wordpress_search_post"
+  },
+  {
+    "caption": "WP: New Post",
+    "command": "wordpress_new_post",
+    "args": {"post_type": "post"}
+  },
+  {
     "caption": "WP: Connect to Site",
     "command": "wordpress_connect"
   },

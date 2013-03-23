@@ -463,6 +463,84 @@ class WordpressNewPostCommand(sublime_plugin.WindowCommand):
 
 		self.window.run_command('wordpress_edit_post', { 'id': self.post.id })
 
+class WordpressSearchPostCommand(sublime_plugin.WindowCommand):
+	""" Sublime Command called when the user selects the search for a post option in the quick panel """
+	def __init__(self, *args, **kwargs):
+		super(WordpressSearchPostCommand, self).__init__(*args, **kwargs)
+		self.wc = command.WordpressCommand()
+
+	""" Called to determine if the command should be enabled """
+	def is_enabled(self):
+		return self.wc.is_enabled()
+
+	""" Called when the command is ran """
+	def run(self, *args, **kwargs):  
+		# initialize anything we need for this command
+		self.setup_command(*args, **kwargs)
+
+	""" Called right before the rest of the command runs """
+	def setup_command(self, *args, **kwargs):
+		# initialize empty posts array
+		self.posts = [] 
+		self.children = None
+
+		# setup some options for the quick panel
+		self.options = []
+
+		# show the input panel to receive the new posts title
+		self.window.show_input_panel('Search For', '', self.doDone, None, None)
+
+	""" Called when the input panel has received input """
+	def doDone(self, keyword):
+
+		# create threaded API call because the http connections could take awhile
+		thread = plugin.WordpressApiCall(GetPosts({'post_type': 'post', 's': keyword}))
+
+		# add the thread to the list
+		self.wc.add_thread(thread)
+
+		# initiate any threads we have
+		self.wc.init_threads(self.thread_callback)
+
+	""" Called when the thread is finished executing """
+	def thread_callback(self, result):
+		self.posts = result
+
+		# loop through all of the retreived posts
+		for post in self.posts:
+			post_id = str(post.id).ljust(4, ' ')
+			
+			prefix = 'ID: ' + post_id + (' | Parent ID: ' + post.parent_id + ' :: ' if int(post.parent_id) >= 1 else '')
+
+			self.options.append([post.title[:50], prefix + post.content[:40]])
+
+		# show the quick panel
+		self.wc.show_quick_panel(self.options, self.panel_callback)
+
+		pprint.pprint(result)
+
+	""" Called when the quick panel is closed """
+	def panel_callback(self, index):
+		# the user cancelled the panel
+		if index == -1:
+			return 
+		
+		# loop through all of the retreived posts
+		for post in self.posts:
+			post_id = str(post.id).ljust(4, ' ')
+
+			child_check = self.options[index][1][len(child_space)+4:len(child_space)+8]
+			orig_check = self.options[index][1][4:8]
+
+			#pprint.pprint('Checking if: ' + post_id + ' is: ' + orig_check + ' or ' + child_check) 
+			is_child = False
+
+
+			# check for a matching title for the selected quick panel option
+			if (post_id == orig_check):
+				# show the user actions for this posts
+				self.window.run_command('wordpress_post_action', {'id': post.id, 'title': post.title, 'post_type': post.post_type, 'is_wp': False})
+
 class WordpressViewPostCommand(sublime_plugin.WindowCommand):
 	""" Sublime Command that renames a WordPress post """
 	def __init__(self, *args, **kwargs):
