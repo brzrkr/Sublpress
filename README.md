@@ -53,8 +53,10 @@ A few examples of the actions that come with Sublpress right now:
 	<img src="http://cl.zombierelief.com/image/1R293w2q2P37/Image%202013.03.17%2011:28:42%20AM.png" width="50%" />
 </div>
 
-### Installation (waiting on approval for Package Control)
-Clone (or copy the contents of) this repository into your Sublime Text `./Packages` folder:
+### Installation
+<strong>1.</strong> Open the command palette in Sublime Text and search for Package Control’s “Install Package” command. From there you should be able to search for “Sublpress” and have it automatically installed.
+
+<strong>2. </strong> Clone (or copy the contents of) this repository into your Sublime Text `./Packages` folder:
 
     git clone https://github.com/dnstbr/sublpress.git
 
