@@ -1,0 +1,57 @@
+[
+  {
+    "caption": "WP: Search",
+    "command": "wordpress_search_post"
+  },
+  {
+    "caption": "WP: New Post",
+    "command": "wordpress_new_post",
+    "args": {"post_type": "post"}
+  },
+  {
+    "caption": "WP: Connect to Site",
+    "command": "wordpress_connect"
+  },
+  {
+    "caption": "WP: Disconnect from Site",
+    "command": "wordpress_disconnect"
+  },
+  {
+    "caption": "WP: Edit Settings",
+    "command": "wordpress_edit_settings"
+  },
+  {
+    "caption": "WP: Manage Posts",
+    "command": "wordpress_manage_posts",
+    "args": {"post_type": "post"}
+  },
+  {
+    "caption": "WP: Manage Pages",
+    "command": "wordpress_manage_posts",
+    "args": {"post_type": "page"}
+  },
+  {
+    "caption": "WP: Manage Taxonomies",
+    "command": "wordpress_manage_taxes"
+  },
+  {
+    "caption": "WP: Save Post",
+    "command": "wordpress_save_post"
+  },
+  {
+    "caption": "WP: Post Actions",
+    "command": "wordpress_post_action"
+  },
+  {
+    "caption": "WP: Manage Sites", 
+    "command": "wordpress_manage_sites"
+  },
+  {
+    "caption": "WP: Upload Media", 
+    "command": "wordpress_upload_media"
+  },
+  {
+    "caption": "WP: Manage Custom Post Type",
+    "command": "wordpress_manage_custom_posts"
+  }
+]
