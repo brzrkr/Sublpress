@@ -7,8 +7,9 @@
 		"Site Label":
 		{
 			"host": "website.com",
+			"salt": "unused",
+			"username": "username",
 			"password": "password",
-			"username": "username"
 		}
 		*/
 	}
