@@ -41,7 +41,7 @@ class WordpressInsertCommand(sublime_plugin.TextCommand):
 		self.file.set_scratch(True)
 
 		# loop through the and set the status keys
-		for k, v in status.items():	
+		for k, v in status.items():
 			self.file.set_status(k, v)
 
 		# insert the content into the new view
@@ -72,7 +72,7 @@ class WordpressActionsCommand(sublime_plugin.WindowCommand):
 
 		# the user cancelled the panel
 		if index == -1:
-			return 
+			return
 
 		# settings
 		if index == 0:
@@ -116,17 +116,17 @@ class WordpressConnectCommand(sublime_plugin.WindowCommand):
 	""" Called right before the rest of the command runs """
 	def setup_command(self, *args, **kwargs):
 		self.sites = []
-		self.options = [] 
-		
+		self.options = []
+
 		# check if we have valid sublpress settings, reload if not
 		if common.sp_settings == None:
 			common.sp_settings = sublime.load_settings('Wordpress.sublime-settings')
-		
+
 		if not common.sp_settings.has('sites') or len(common.sp_settings.get('sites')) <= 0:
 			sublime.error_message('No sites configured.')
 			return
 
-		# loop through all the sites 
+		# loop through all the sites
 		for name, site in common.sp_settings.get('sites').items():
 
 			# and add them to the quick panel options and our sites container
@@ -142,7 +142,7 @@ class WordpressConnectCommand(sublime_plugin.WindowCommand):
 
 		# the user cancelled the panel
 		if index == -1:
-			return 
+			return
 		site = self.sites[index]
 
 		url = 'http://' + site['host'] + '/xmlrpc.php'
